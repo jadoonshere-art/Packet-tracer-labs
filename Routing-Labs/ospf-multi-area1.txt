@@ -1,0 +1,38 @@
+! OSPF Multi-Area Configuration
+! Created: March 2024
+! Lab: Enterprise OSPF Deployment
+
+! Router 1 - Area 0 (Backbone)
+router ospf 1
+ router-id 1.1.1.1
+ network 10.0.0.0 0.0.0.255 area 0
+ network 192.168.1.0 0.0.0.255 area 0
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ auto-cost reference-bandwidth 1000
+!
+interface GigabitEthernet0/0
+ ip address 10.0.0.1 255.255.255.0
+ ip ospf 1 area 0
+ ip ospf priority 100
+!
+interface GigabitEthernet0/1
+ ip address 192.168.1.1 255.255.255.0
+ ip ospf 1 area 0
+
+! Router 2 - Area 1
+router ospf 1
+ router-id 2.2.2.2
+ network 10.0.0.0 0.0.0.255 area 0
+ network 172.16.1.0 0.0.0.255 area 1
+ network 172.16.2.0 0.0.0.255 area 1
+
+! Area 1 Stub Configuration (reduces LSA traffic)
+ area 1 stub
+
+! Verification commands
+! show ip ospf neighbor
+! show ip ospf database
+! show ip route ospf
+! show ip protocols
