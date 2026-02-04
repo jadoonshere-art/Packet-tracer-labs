@@ -1,0 +1,42 @@
+! Basic VLAN Configuration Example
+! Created: [Today's Date]
+! Lab: Department VLAN Segmentation
+
+! Create VLANs
+vlan 10
+ name ADMIN
+ description Administration Department
+vlan 20
+ name SALES
+ description Sales Team
+vlan 30
+ name IT
+ description IT Department
+
+! Assign switch ports to VLANs
+interface range FastEthernet0/1-5
+ switchport mode access
+ switchport access vlan 10
+ description Admin PCs
+
+interface range FastEthernet0/6-10
+ switchport mode access
+ switchport access vlan 20
+ description Sales PCs
+
+interface range FastEthernet0/11-15
+ switchport mode access
+ switchport access vlan 30
+ description IT Department
+
+! Configure trunk between switches
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ description Trunk to Core Switch
+
+! Show commands for verification
+! show vlan brief
+! show interface trunk
+! show running-config
