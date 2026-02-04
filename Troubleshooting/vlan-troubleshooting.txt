@@ -50,3 +50,19 @@ interface Vlan20
 ! show mac address-table
 ! show logging
 ! show processes cpu
+FOLDER STRUCTURE TO CREATE:
+text
+network-engineering-portfolio/
+├── README.md
+├── VLAN-Labs/
+│   ├── basic-vlan-config.txt ✓
+│   ├── inter-vlan-routing.txt
+│   └── vlan-troubleshooting.txt
+├── ACL-Labs/
+│   └── extended-acl-security.txt
+├── Routing-Labs/
+│   └── ospf-multi-area.txt
+├── Services-Labs/
+│   └── dhcp-configuration.txt
+└── Troubleshooting/
+    └── vlan-troubleshooting.txt
