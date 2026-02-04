@@ -1,0 +1,28 @@
+! Extended ACL Security Implementation
+! Created: March 2024
+! Lab: Departmental Traffic Filtering
+
+! Deny Sales from accessing IT servers but allow web browsing
+ip access-list extended SALES-TO-IT-FILTER
+ deny tcp 192.168.20.0 0.0.0.255 192.168.30.0 0.0.0.255 eq 22
+ deny tcp 192.168.20.0 0.0.0.255 192.168.30.0 0.0.0.255 eq 3389
+ permit tcp 192.168.20.0 0.0.0.255 any eq 80
+ permit tcp 192.168.20.0 0.0.0.255 any eq 443
+ permit ip any any
+! Apply ACL to interface
+interface GigabitEthernet0/0
+ ip access-group SALES-TO-IT-FILTER in
+ description Inbound filter for Sales VLAN
+
+! Time-based ACL for after-hours restriction
+time-range AFTER-HOURS
+ periodic weekdays 18:00 to 08:00
+ periodic weekend 00:00 to 23:59
+ip access-list extended AFTER-HOURS-BLOCK
+ deny ip 192.168.20.0 0.0.0.255 any time-range AFTER-HOURS
+ permit ip any any
+
+! Verification commands
+! show access-lists
+! show time-range
+! show ip interface GigabitEthernet0/0
