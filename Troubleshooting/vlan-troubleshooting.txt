@@ -1,0 +1,52 @@
+! VLAN Troubleshooting Scenario
+! Created: March 2024
+! Lab: Common VLAN Issues and Solutions
+
+! PROBLEM 1: Devices in same VLAN cannot communicate
+! ------------------------------------------------
+! Check 1: Verify VLAN exists on switch
+show vlan id 10
+
+! Check 2: Verify ports are in correct VLAN
+show interface FastEthernet0/1 switchport
+
+! Check 3: Check trunk configuration
+show interface trunk
+show interface GigabitEthernet0/1 switchport
+
+! SOLUTION: Missing VLAN on trunk
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan add 10
+
+! PROBLEM 2: Inter-VLAN routing not working
+! -----------------------------------------
+! Check 1: Verify SVI is up
+show ip interface vlan 10
+
+! Check 2: Check IP routing is enabled
+show ip route
+show running-config | include ip routing
+
+! Check 3: Verify default gateway on hosts
+! SOLUTION: Enable IP routing
+ip routing
+
+! PROBLEM 3: DHCP not working across VLANs
+! ----------------------------------------
+! Check 1: Verify IP helper address
+show running-config interface Vlan20
+
+! Check 2: Check DHCP server reachability
+ping 192.168.30.100 source 192.168.20.1
+
+! SOLUTION: Add IP helper address
+interface Vlan20
+ ip helper-address 192.168.30.100
+
+! Common Show Commands for Troubleshooting
+! show cdp neighbor
+! show interface status
+! show spanning-tree
+! show mac address-table
+! show logging
+! show processes cpu
